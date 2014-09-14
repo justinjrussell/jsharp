@@ -1,20 +1,23 @@
 ﻿define(["./core"], function (jSharp) {
-	jSharp.String = {
-		Format: function (format) {
-			if (typeof format !== "string") { throw new Error("Format must be String"); }
-			if (arguments.length === 1) { throw new Error("Must Supply at least one Argument"); }
-			var objectArg = Array.prototype.slice.call(arguments).splice(1, arguments.length);
-			if (!validateArguments(objectArg)) { throw new Error("Invalid Arguments"); }
+	
+	function String() {
 
-			var sresult = format;
+	}
+	
+	String.Format = function (format) {
+		if (typeof format !== "string") { jSharp.error("Format must be String"); }
+		if (arguments.length === 1) { jSharp.error("Must Supply at least one Argument"); }
+		var objectArg = Array.prototype.slice.call(arguments).splice(1, arguments.length);
+		if (!validateArguments(objectArg)) { jSharp.error("Invalid Arguments"); }
 
-			for (var i = 0; i < objectArg.length; i++) {
-				sresult = sresult.replace("{" + i + "}", objectArg[i]);
-			}
-			return sresult;
+		var formatted = format;
+
+		for (var i = 0; i < objectArg.length; i++) {
+			formatted = formatted.replace("{" + i + "}", objectArg[i]);
 		}
+		return formatted;
 	};
-
+	
 	function validateArguments(args) {
 		var valid = true;
 		for (var i = 0; i < args.length; i++) {
@@ -27,6 +30,7 @@
 		return valid;
 	}
 
+	jSharp.String = String;
 
 	return jSharp;
 });
