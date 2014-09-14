@@ -1,33 +1,33 @@
 ﻿define(["./core"], function (jSharp) {
 	function DateTime() {
+		var NewDate = Date;
 		var datetime,
-			_date,//Object
-			_day,//Number
-			_dayofWeek,//Enum - String
-			_dayofYear,//Number
-			_hour,//Number
-			_kind = jSharp.DateTimeKind.Local,//DayTimeKind
-			_millisecond,//Number
-			_minute,//Number
-			_month,//Number
-			_second,//Number
-			_ticks,//Number
-			_timeOfDay,//TimeSpan
-			_year,//Number
-			year,
-			month,
-			day,
-			hour,
-			minute,
-			second,
-			millsecond,
-			kind,
-			utc,
-			ticks,
-			NewDate = Date;
+			_Date,//Datetime Object
+			_Day,
+			_DayofWeek,
+			_DayofYear,
+			_Hour,
+			_Kind = jSharp.DateTimeKind.Local,
+			_Millisecond,
+			_Minute,
+			_Month,
+			_Second,
+			_Ticks,
+			_TimeOfDay,//TODO - Implement TimeSpan
+			_Year;
 
 		function validateDatetimeArgs(args) {
-			var valid = true;
+			var valid = true,
+				year,
+				month,
+				day,
+				hour,
+				minute,
+				second,
+				millsecond,
+				kind,
+				utc,
+				ticks;
 			switch (args.length) {
 				case 1:
 					//DateTime(ticks:long)
@@ -46,13 +46,13 @@
 						valid = false;
 					}
 					if (kind === jSharp.DateTimeKind.Utc) {
-						datetime = new Date(ticks);
+						datetime = new NewDate(ticks);
 						utc = Date.UTC(datetime.getUTCFullYear(), datetime.getUTCMonth(), datetime.getUTCDate(), datetime.getUTCHours(), datetime.getUTCMinutes(), datetime.getUTCSeconds(), datetime.getUTCMilliseconds());
-						datetime = new Date(utc);
+						datetime = new NewDate(utc);
 					} else {
-						datetime = new Date(ticks);
+						datetime = new NewDate(ticks);
 					}
-					_kind = kind;
+					_Kind = kind;
 					break;
 				case 3:
 					//DateTime(year:int, month:int, day:int)
@@ -64,7 +64,7 @@
 						typeof day !== "number") {
 						valid = false;
 					}
-					datetime = new Date(year, month - 1, day);
+					datetime = new NewDate(year, month - 1, day, 12, 0, 0);
 					break;
 				case 4:
 					//DateTime(year:int, month:int, day:int, calendar:Calendar)
@@ -90,7 +90,7 @@
 						typeof second !== "number") {
 						valid = false;
 					}
-					datetime = new Date(year, month - 1, day, hour, minute, second);
+					datetime = new NewDate(year, month - 1, day, hour, minute, second);
 					break;
 				case 7:
 					//DateTime(year:int, month:int, day:int, hour:int, minute:int, second:int, millisecond:int)
@@ -110,7 +110,7 @@
 						typeof millisecond !== "number") {
 						valid = false;
 					}
-					datetime = new Date(year, month - 1, day, hour, minute, second, millsecond);
+					datetime = new NewDate(year, month - 1, day, hour, minute, second, millsecond);
 					break;
 				case 8:
 					//DateTime(year:int, month:int, day:int, hour:int, minute:int, second:int, millisecond:int, kind:DateTimeKind)
@@ -133,13 +133,13 @@
 						valid = false;
 					}
 					if (kind === jSharp.DateTimeKind.Utc) {
-						datetime = new Date(year, month - 1, day, hour, minute, second, millsecond);
+						datetime = new NewDate(year, month - 1, day, hour, minute, second, millsecond);
 						utc = Date.UTC(datetime.getUTCFullYear(), datetime.getUTCMonth(), datetime.getUTCDate(), datetime.getUTCHours(), datetime.getUTCMinutes(), datetime.getUTCSeconds(), datetime.getUTCMilliseconds());
-						datetime = new Date(utc);
+						datetime = new NewDate(utc);
 					} else {
-						datetime = new Date(year, month - 1, day, hour, minute, second, millsecond);
+						datetime = new NewDate(year, month - 1, day, hour, minute, second, millsecond);
 					}
-					_kind = kind;
+					_Kind = kind;
 					break;
 				case 9:
 					//DateTime(year:int, month:int, day:int, hour:int, minute:int, second:int, millisecond:int, calendar:Calendar, kind:DateTimeKind)
@@ -179,18 +179,18 @@
 
 		function setFields() {
 			if (datetime !== undefined) {
-				_date = "";//Object
-				_day = datetime.getDate();//Number
-				_dayofWeek = getDayofWeek(datetime.getDay());//Enum - String
-				_dayofYear = 0;//Number
-				_hour = datetime.getHours();//Number
-				_millisecond = datetime.getMilliseconds();//Number
-				_minute = datetime.getMinutes();//Number
-				_month = datetime.getMonth() + 1;//Number
-				_second = datetime.getSeconds();//Number
-				_ticks = Date.parse(datetime);//Number
-				_timeOfDay = "";//TimeSpan
-				_year = datetime.getFullYear();//Number
+				_Date = "";
+				_Day = datetime.getDate();
+				_DayofWeek = getDayofWeek(datetime.getDay());
+				_DayofYear = 0;
+				_Hour = datetime.getHours();
+				_Millisecond = datetime.getMilliseconds();
+				_Minute = datetime.getMinutes();
+				_Month = datetime.getMonth() + 1;
+				_Second = datetime.getSeconds();
+				_Ticks = Date.parse(datetime);
+				_TimeOfDay = "";
+				_Year = datetime.getFullYear();
 			}
 		}
 
@@ -201,19 +201,30 @@
 		}
 
 		return {
-			Date: _date,
-			Day: _day,
-			DayofWeek: _dayofWeek,
-			DayofYear: _dayofYear,
-			Hour: _hour,
-			Kind: _kind,
-			Millisecond: _millisecond,
-			Minute: _minute,
-			Month: _month,
-			Second: _second,
-			Ticks: _ticks,
-			TimeOfDay: _timeOfDay,
-			Year: _year
+			Date: _Date,
+			Day: _Day,
+			DayofWeek: _DayofWeek,
+			DayofYear: _DayofYear,
+			Hour: _Hour,
+			Kind: _Kind,
+			Millisecond: _Millisecond,
+			Minute: _Minute,
+			Month: _Month,
+			Second: _Second,
+			Ticks: _Ticks,
+			TimeOfDay: _TimeOfDay,
+			Year: _Year,
+			Add: function () { },
+			AddDays: function () { },
+			AddHours: function () { },
+			AddMilliseconds: function () { },
+			AddMinutes: function () { },
+			AddMonths: function () { },
+			AddSeconds: function () { },
+			AddTicks: function () { },
+			AddYears: function () { },
+			ToShortDateString: function () { },
+			ToShortTimeString: function () { }
 		};
 	}
 
@@ -226,6 +237,14 @@
 	};
 
 	DateTime.UtcNow = function () {
+
+	};
+
+	DateTime.DaysInMonth = function () {
+
+	};
+
+	DateTime.IsLeapYear = function () {
 
 	};
 
