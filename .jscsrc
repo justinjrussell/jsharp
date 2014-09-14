@@ -1,0 +1,5 @@
+{
+	//"preset": "jsharp",
+
+	"excludeFiles": [ "external", "src/intro.js", "src/outro.js" ]
+}

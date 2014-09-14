@@ -1,0 +1,21 @@
+﻿{
+  "name": "jsharp",
+  "version": "0.0.1",
+  "main": "dist/jsharp.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "build",
+    "speed",
+    "test",
+    "*.md",
+    "AUTHORS.txt",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "keywords": [
+    "jsharp",
+    "javascript",
+    "library"
+  ]
+}
